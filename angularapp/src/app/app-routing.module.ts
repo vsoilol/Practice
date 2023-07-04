@@ -5,27 +5,28 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: () =>
-      import('../app/features/user/user.module').then((m) => m.UserModule)
+      import('../app/features/user/user.module').then(m => m.UserModule),
   },
   {
     path: 'weatherforecast',
     loadChildren: () =>
-      import('../app/features/weather-forecast/weather-forecast.module')
-        .then((m) => m.WeatherForecastModule)
+      import('../app/features/weather-forecast/weather-forecast.module').then(
+        m => m.WeatherForecastModule
+      ),
   },
   {
     path: '**',
-    redirectTo: 'weatherforecast'
+    redirectTo: 'weatherforecast',
   },
   {
     path: '',
     redirectTo: 'weatherforecast',
-    pathMatch: "full"
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

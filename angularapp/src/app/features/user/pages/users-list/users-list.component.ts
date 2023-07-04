@@ -1,23 +1,30 @@
-import {Component} from '@angular/core';
-import {UserService} from "../../services/user.service";
-import {User} from "../../models/user";
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { User } from '../../models/user';
 
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+  styleUrls: ['./users-list.component.scss'],
 })
-export class UsersListComponent {
-  userTableColumns: string[] = ['name', 'lastName', 'middleName', 'age', 'roles'];
+export class UsersListComponent implements OnInit {
+  userTableColumns: string[] = [
+    'name',
+    'lastName',
+    'middleName',
+    'age',
+    'roles',
+  ];
   public users: User[] = [];
 
-  constructor(private userService: UserService) {
-  }
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    this.userService.getAll()
-      .subscribe(result => {
+    this.userService.getAll().subscribe(
+      result => {
         this.users = result;
-      }, error => console.error(error));
+      },
+      error => console.error(error)
+    );
   }
 }

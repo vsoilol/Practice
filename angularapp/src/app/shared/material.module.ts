@@ -76,8 +76,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     OverlayModule,
     PortalModule,
     ScrollingModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
-  declarations: []
+  declarations: [],
 })
-export class MaterialModule { }
+export class MaterialModule {}
