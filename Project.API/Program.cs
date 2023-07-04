@@ -35,8 +35,8 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseDefaultFiles();
     app.UseStaticFiles();
+    app.MapFallbackToFile("index.html");
 }
 
 app.UseHttpsRedirection();
