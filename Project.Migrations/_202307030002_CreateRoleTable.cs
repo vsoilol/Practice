@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace Project.DataAccessLayer.Migrations;
+namespace Project.Migrations;
 
 [Migration(202307030002)]
 public class _202307030002_CreateRoleTable : AutoReversingMigration

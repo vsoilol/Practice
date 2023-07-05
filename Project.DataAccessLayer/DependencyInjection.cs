@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Project.DataAccessLayer.DataAccess;
-using Project.DataAccessLayer.Migrations;
+using Project.Migrations;
 
 namespace Project.DataAccessLayer;
 

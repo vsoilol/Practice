@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace Project.DataAccessLayer.Migrations;
+namespace Project.Migrations;
 
 [Migration(202106280001)]
 public class _202307030001_InitialTables : AutoReversingMigration

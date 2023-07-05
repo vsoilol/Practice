@@ -4,10 +4,8 @@ using Project.DataAccessLayer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -19,21 +17,25 @@ builder.Services.RegisterBusinessLayer();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+var isDevelopment = app.Environment.IsDevelopment();
+var isProduction = app.Environment.IsProduction();
+
+if (isDevelopment)
 {
+    using var scope = app.Services.CreateScope();
     var services = scope.ServiceProvider;
 
     var runner = services.GetRequiredService<IMigrationRunner>();
     runner.MigrateUp();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (isDevelopment)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-else
+
+if (isProduction)
 {
     app.UseStaticFiles();
     app.MapFallbackToFile("index.html");

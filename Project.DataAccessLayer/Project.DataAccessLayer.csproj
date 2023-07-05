@@ -16,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Project.Domain\Project.Domain.csproj" />
+      <ProjectReference Include="..\Project.Migrations\Project.Migrations.csproj" />
     </ItemGroup>
 
 </Project>
