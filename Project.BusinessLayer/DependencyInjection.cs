@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Project.BusinessLayer.Services.Student;
 using Project.BusinessLayer.Services.User;
 
 namespace Project.BusinessLayer;
@@ -11,5 +12,6 @@ public static class DependencyInjection
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IStudentService, StudentService>();
     }
 }
