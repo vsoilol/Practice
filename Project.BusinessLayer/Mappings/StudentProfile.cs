@@ -9,7 +9,10 @@ public class StudentProfile : Profile
 {
     public StudentProfile()
     {
-        CreateMap<Student, StudentDto>();
+        CreateMap<Student, StudentDto>()
+            .ForMember(dto => dto.UserId,
+                entity => entity
+                    .MapFrom(s => s.ModifiedById ?? s.CreatedById));
 
         CreateMap<CreateStudentRequest, Student>();
         CreateMap<UpdateStudentRequest, Student>();

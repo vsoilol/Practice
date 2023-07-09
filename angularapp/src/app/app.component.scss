@@ -1,0 +1,17 @@
+@import 'variables.scss';
+
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: clip;
+}
+
+.app {
+  &__header {
+  }
+
+  &__sidebar {
+    flex: 1 1 auto;
+  }
+}

@@ -1,0 +1,80 @@
+<div class="dialog">
+  <div class="dialog__container">
+    <h3 mat-dialog-title>{{ title }}</h3>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form__container">
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Имя</mat-label>
+            <input matInput formControlName="firstName" />
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Фамилия</mat-label>
+            <input matInput formControlName="lastName" />
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Отчество</mat-label>
+            <input matInput formControlName="middleName" />
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Возраст</mat-label>
+            <input matInput [type]="'number'" formControlName="age" />
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Группа</mat-label>
+            <input matInput formControlName="group" />
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="input__container">
+          <mat-form-field appearance="outline">
+            <mat-label>Пользователь</mat-label>
+            <mat-select formControlName="userId">
+              <mat-option
+                *ngFor="let user of studentService.users$ | async"
+                [value]="user.id">
+                {{ user.lastName }} {{ user.firstName }} {{ user.middleName }}
+              </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
+          </mat-form-field>
+        </div>
+
+        <div class="dialog__buttons">
+          <button
+            mat-raised-button
+            color="primary"
+            [type]="'submit'"
+            [disabled]="!form.valid">
+            Сохранить
+          </button>
+          <button
+            mat-raised-button
+            color="warn"
+            (click)="onNoClick()"
+            tabindex="-1">
+            Выйти
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

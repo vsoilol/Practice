@@ -1,0 +1,15 @@
+<div class="sidenav">
+  <div class="sidenav__sidenav-container">
+    <nav class="sidenav__menu sidenav-menu">
+      <ul class="sidenav-menu__list">
+        <li class="sidenav-menu__item" *ngFor="let navbarItem of navData">
+          <a
+            [routerLink]="[navbarItem.routeLink]"
+            class="sidenav-menu__link link-menu">
+            <span class="link-menu__text">{{ navbarItem.label }}</span></a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
