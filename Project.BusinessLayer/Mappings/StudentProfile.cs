@@ -14,7 +14,13 @@ public class StudentProfile : Profile
                 entity => entity
                     .MapFrom(s => s.ModifiedById ?? s.CreatedById));
 
-        CreateMap<CreateStudentRequest, Student>();
-        CreateMap<UpdateStudentRequest, Student>();
+        CreateMap<CreateStudentRequest, Student>()
+            .ForMember(entity => entity.CreatedById,
+                memberOptions =>
+                    memberOptions.MapFrom(request => request.UserId));
+        CreateMap<UpdateStudentRequest, Student>()
+            .ForMember(entity => entity.ModifiedById,
+                memberOptions =>
+                    memberOptions.MapFrom(request => request.UserId));
     }
 }

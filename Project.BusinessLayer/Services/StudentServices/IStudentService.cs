@@ -1,7 +1,7 @@
 ﻿using Project.Domain.DTOs;
 using Project.Domain.Requests.Student;
 
-namespace Project.BusinessLayer.Services.Student;
+namespace Project.BusinessLayer.Services.StudentServices;
 
 public interface IStudentService
 {

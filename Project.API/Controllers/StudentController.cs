@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project.BusinessLayer.Services.Student;
+using Project.BusinessLayer.Services.StudentServices;
 using Project.Domain.DTOs;
 using Project.Domain.Requests.Student;
 

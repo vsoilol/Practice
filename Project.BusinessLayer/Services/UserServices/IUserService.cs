@@ -1,7 +1,7 @@
 ﻿using Project.Domain.DTOs;
 using Project.Domain.Requests.User;
 
-namespace Project.BusinessLayer.Services.User;
+namespace Project.BusinessLayer.Services.UserServices;
 
 public interface IUserService
 {
