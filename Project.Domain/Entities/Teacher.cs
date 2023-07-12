@@ -2,8 +2,8 @@
 
 namespace Project.Domain.Entities;
 
-[Table(nameof(Student))]
-public class Student : Entity
+[Table(nameof(Teacher))]
+public class Teacher : Entity
 {
     public string FirstName { get; set; } = null!;
     
@@ -11,9 +11,5 @@ public class Student : Entity
 
     public string MiddleName { get; set; } = null!;
 
-    public int Age { get; set; }
-
-    public string Group { get; set; } = null!;
-    
-    public ICollection<ExamStudent> ExamStudents { get; set; } = null!;
+    public ICollection<WorkingDay> WorkingDays { get; set; } = null!;
 }

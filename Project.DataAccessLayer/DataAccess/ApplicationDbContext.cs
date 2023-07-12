@@ -18,12 +18,36 @@ internal class ApplicationDbContext : DbContext
 
     public DbSet<Student> Students { get; set; } = null!;
 
+    public DbSet<Exam> Exams { get; set; } = null!;
+    
+    public DbSet<ExamStudent> ExamStudents { get; set; } = null!;
+    
+    public DbSet<Subject> Subjects { get; set; } = null!;
+    
+    public DbSet<Teacher> Teachers { get; set; } = null!;
+    
+    public DbSet<WorkingDay> WorkingDays { get; set; } = null!;
+
     public DbSet<AuditLog> AuditLogs { get; set; } = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUserService)
         : base(options)
     {
         _currentUserService = currentUserService;
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<WorkingDay>()
+            .HasIndex(w => new { w.Date, w.TeacherId })
+            .IsUnique();
+        
+        modelBuilder.Entity<Exam>()
+            .HasIndex(e => e.TeacherWorkingDayId)
+            .IsUnique();
+        
+        modelBuilder.Entity<ExamStudent>()
+            .HasKey(es => new { es.ExamId, es.StudentId });
     }
 
     public override int SaveChanges()

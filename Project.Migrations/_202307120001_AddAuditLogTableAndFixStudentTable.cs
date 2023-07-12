@@ -34,13 +34,13 @@ public class _202307120001_AddAuditLogTableAndFixStudentTable : Migration
         Create.Table("AuditLog")
             .WithColumn("Id").AsGuid().NotNullable().PrimaryKey()
             .WithColumn("UserId").AsGuid().Nullable()
-            .WithColumn("AuditType").AsString().NotNullable()
-            .WithColumn("TableName").AsString().NotNullable()
+            .WithColumn("AuditType").AsString(int.MaxValue).NotNullable()
+            .WithColumn("TableName").AsString(int.MaxValue).NotNullable()
             .WithColumn("DateTime").AsDateTime2().NotNullable()
-            .WithColumn("OldValues").AsString().Nullable()
-            .WithColumn("NewValues").AsString().Nullable()
-            .WithColumn("AffectedColumns").AsString().Nullable()
-            .WithColumn("PrimaryKey").AsString().Nullable();
+            .WithColumn("OldValues").AsString(int.MaxValue).Nullable()
+            .WithColumn("NewValues").AsString(int.MaxValue).Nullable()
+            .WithColumn("AffectedColumns").AsString(int.MaxValue).Nullable()
+            .WithColumn("PrimaryKey").AsString(int.MaxValue).Nullable();
 
         Create.ForeignKey("FK_AuditLog_User_UserId")
             .FromTable("AuditLog").ForeignColumn("UserId")
