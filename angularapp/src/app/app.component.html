@@ -1,10 +1,7 @@
-﻿<div><a routerLink="/user" routerLinkActive="active">User Component</a></div>
-<div>
-  <a routerLink="/weatherforecast" routerLinkActive="active"
-    >Weather forecast Component</a
-  >
-</div>
+﻿<div class="wrapper">
+  <app-header class="app__header"></app-header>
 
-<div>
-  <router-outlet></router-outlet>
+  <app-sidebar class="app__sidebar">
+    <router-outlet></router-outlet>
+  </app-sidebar>
 </div>

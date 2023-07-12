@@ -1,10 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Project.DataAccessLayer.Models;
+using Project.DataAccessLayer.Services;
 using Project.Domain.Entities;
+using Project.Domain.Enums;
 
 namespace Project.DataAccessLayer.DataAccess;
 
-internal class ApplicationDbContext : DbContext, IDbContext
+internal class ApplicationDbContext : DbContext
 {
+    private readonly ICurrentUserService _currentUserService;
+
     public DbSet<User> Users { get; set; } = null!;
 
     public DbSet<Role> Roles { get; set; } = null!;
@@ -13,32 +18,109 @@ internal class ApplicationDbContext : DbContext, IDbContext
 
     public DbSet<Student> Students { get; set; } = null!;
 
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public DbSet<Exam> Exams { get; set; } = null!;
+    
+    public DbSet<ExamStudent> ExamStudents { get; set; } = null!;
+    
+    public DbSet<Subject> Subjects { get; set; } = null!;
+    
+    public DbSet<Teacher> Teachers { get; set; } = null!;
+    
+    public DbSet<WorkingDay> WorkingDays { get; set; } = null!;
+
+    public DbSet<AuditLog> AuditLogs { get; set; } = null!;
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ICurrentUserService currentUserService)
         : base(options)
     {
-        Database.EnsureCreated();
+        _currentUserService = currentUserService;
     }
 
-    public Task<int> SaveChangesAuditableEntitiesAsync(Guid userId, CancellationToken cancellationToken = default)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var now = DateTime.Now;
+        modelBuilder.Entity<WorkingDay>()
+            .HasIndex(w => new { w.Date, w.TeacherId })
+            .IsUnique();
+        
+        modelBuilder.Entity<Exam>()
+            .HasIndex(e => e.TeacherWorkingDayId)
+            .IsUnique();
+        
+        modelBuilder.Entity<ExamStudent>()
+            .HasKey(es => new { es.ExamId, es.StudentId });
+    }
 
-        ChangeTracker.Entries<AuditableEntity>().ToList()
-            .ForEach(x =>
+    public override int SaveChanges()
+    {
+        SaveAuditLog();
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+    {
+        SaveAuditLog();
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SaveAuditLog()
+    {
+        ChangeTracker.DetectChanges();
+        var auditEntries = new List<AuditEntry>();
+
+        var entities = ChangeTracker.Entries()
+            .Where(x => x.State != EntityState.Unchanged
+                        && x.State != EntityState.Detached)
+            .ToList();
+
+        foreach (var entry in entities)
+        {
+            var userId = _currentUserService.GetCurrentUserId();
+
+            var auditEntry = new AuditEntry
             {
-                switch (x.State)
+                TableName = entry.Entity.GetType().Name,
+                UserId = userId
+            };
+
+            auditEntries.Add(auditEntry);
+
+            foreach (var property in entry.Properties)
+            {
+                var propertyName = property.Metadata.Name;
+
+                if (property.Metadata.IsPrimaryKey())
+                {
+                    auditEntry.KeyValues[propertyName] = property.CurrentValue!;
+                    continue;
+                }
+
+                switch (entry.State)
                 {
                     case EntityState.Added:
-                        x.Entity.CreatedById = userId;
-                        x.Entity.CreatedAt = now;
+                        auditEntry.AuditType = AuditType.Create;
+                        auditEntry.NewValues[propertyName] = property.CurrentValue!;
+                        break;
+                    case EntityState.Deleted:
+                        auditEntry.AuditType = AuditType.Delete;
+                        auditEntry.OldValues[propertyName] = property.OriginalValue!;
                         break;
                     case EntityState.Modified:
-                        x.Entity.ModifiedById = userId;
-                        x.Entity.ModifiedAt = now;
+                        if (property.IsModified)
+                        {
+                            auditEntry.ChangedColumns.Add(propertyName);
+                            auditEntry.AuditType = AuditType.Update;
+                            auditEntry.OldValues[propertyName] = property.OriginalValue!;
+                            auditEntry.NewValues[propertyName] = property.CurrentValue!;
+                        }
+
                         break;
                 }
-            });
+            }
+        }
 
-        return base.SaveChangesAsync(cancellationToken);
+        foreach (var auditEntry in auditEntries)
+        {
+            AuditLogs.Add(auditEntry.ToAudit());
+        }
     }
 }

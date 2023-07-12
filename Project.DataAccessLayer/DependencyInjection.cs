@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Project.DataAccessLayer.DataAccess;
+using Project.DataAccessLayer.Repositories.StudentRepositories;
+using Project.DataAccessLayer.Repositories.UserRepositories;
 using Project.Migrations;
 
 namespace Project.DataAccessLayer;
@@ -10,7 +12,6 @@ public static class DependencyInjection
 {
     public static void RegisterDataAccessLayer(this IServiceCollection services, string connectionString)
     {
-        services.AddScoped<IDbContext, ApplicationDbContext>();
         services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
         services
@@ -19,5 +20,8 @@ public static class DependencyInjection
                 .AddSqlServer()
                 .WithGlobalConnectionString(connectionString)
                 .ScanIn(typeof(_202307030001_InitialTables).Assembly).For.Migrations());
+        
+        services.AddScoped<IStudentRepository, StudentRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

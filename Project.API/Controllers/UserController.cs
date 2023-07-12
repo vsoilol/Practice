@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Project.BusinessLayer.Services.User;
+using Project.BusinessLayer.Services.UserServices;
 using Project.Domain.DTOs;
 using Project.Domain.Requests.User;
 

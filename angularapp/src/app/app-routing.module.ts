@@ -15,12 +15,15 @@ const routes: Routes = [
       ),
   },
   {
-    path: '**',
-    redirectTo: 'weatherforecast',
+    path: 'student',
+    loadChildren: () =>
+      import('../app/features/student/student.module').then(
+        m => m.StudentModule
+      ),
   },
   {
     path: '',
-    redirectTo: 'weatherforecast',
+    redirectTo: 'student',
     pathMatch: 'full',
   },
 ];
