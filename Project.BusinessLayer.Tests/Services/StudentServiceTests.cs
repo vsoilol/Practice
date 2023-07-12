@@ -75,7 +75,6 @@ public class StudentServiceTests
             MiddleName = "Smith",
             Age = 20,
             Group = "Group 1",
-            UserId = Guid.NewGuid()
         };
 
         var studentEntity = new Student
@@ -86,7 +85,6 @@ public class StudentServiceTests
             MiddleName = request.MiddleName,
             Age = request.Age,
             Group = request.Group,
-            CreatedById = request.UserId
         };
 
         var createdStudentDto = ConvertStudentEntityToDto(studentEntity);
@@ -118,7 +116,6 @@ public class StudentServiceTests
             MiddleName = "Smith",
             Age = 20,
             Group = "Group 1",
-            UserId = Guid.NewGuid()
         };
 
         var studentEntity = new Student
@@ -129,7 +126,6 @@ public class StudentServiceTests
             MiddleName = request.MiddleName,
             Age = request.Age,
             Group = request.Group,
-            ModifiedById = request.UserId
         };
 
         _mapperMock.Setup(mapper => mapper.Map<Student>(request)).Returns(studentEntity);
@@ -172,7 +168,6 @@ public class StudentServiceTests
                 MiddleName = "MiddleName 1",
                 Group = "Group 1",
                 Age = 20,
-                CreatedById = Guid.NewGuid(),
             },
             new()
             {
@@ -182,8 +177,6 @@ public class StudentServiceTests
                 MiddleName = "MiddleName 2",
                 Group = "Group 2",
                 Age = 21,
-                CreatedById = Guid.NewGuid(),
-                ModifiedById = Guid.NewGuid(),
             },
             new()
             {
@@ -193,8 +186,6 @@ public class StudentServiceTests
                 MiddleName = "MiddleName 3",
                 Group = "Group 3",
                 Age = 22,
-                CreatedById = Guid.NewGuid(),
-                ModifiedById = Guid.NewGuid(),
             },
         };
 
@@ -225,7 +216,6 @@ public class StudentServiceTests
             MiddleName = student.MiddleName,
             Age = student.Age,
             Group = student.Group,
-            UserId = student.ModifiedById ?? student.CreatedById
         };
 
         return studentDto;

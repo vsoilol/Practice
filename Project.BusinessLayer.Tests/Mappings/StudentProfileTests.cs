@@ -20,7 +20,7 @@ public class StudentProfileTests
     }
     
     [Fact]
-    public void ConvertStudentToStudentDto_ShouldMapUserIdCorrectly_WhenModifiedByIdIsNull()
+    public void ConvertStudentToStudentDto_ShouldMapCorrectly()
     {
         // Arrange
         var student = new Student
@@ -30,9 +30,7 @@ public class StudentProfileTests
             LastName = "LastName",
             MiddleName = "MiddleName",
             Group = "Group",
-            Age = 20,
-            CreatedById = Guid.NewGuid(),
-            ModifiedById = null
+            Age = 20
         };
 
         // Act
@@ -46,41 +44,10 @@ public class StudentProfileTests
         Assert.Equal(student.MiddleName, mappedDto.MiddleName);
         Assert.Equal(student.Group, mappedDto.Group);
         Assert.Equal(student.Age, mappedDto.Age);
-        Assert.Equal(student.CreatedById, mappedDto.UserId);
     }
-    
-    [Fact]
-    public void ConvertStudentToStudentDto_ShouldMapUserIdCorrectly_WhenModifiedByIdIsNotNull()
-    {
-        // Arrange
-        var student = new Student
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "FirstName",
-            LastName = "LastName",
-            MiddleName = "MiddleName",
-            Group = "Group",
-            Age = 20,
-            CreatedById = Guid.NewGuid(),
-            ModifiedById = Guid.NewGuid()
-        };
 
-        // Act
-        var mappedDto = _mapper.Map<StudentDto>(student);
-
-        // Assert
-        mappedDto.Should().NotBeNull();
-        Assert.Equal(student.Id, mappedDto.Id);
-        Assert.Equal(student.FirstName, mappedDto.FirstName);
-        Assert.Equal(student.LastName, mappedDto.LastName);
-        Assert.Equal(student.MiddleName, mappedDto.MiddleName);
-        Assert.Equal(student.Group, mappedDto.Group);
-        Assert.Equal(student.Age, mappedDto.Age);
-        Assert.Equal(student.ModifiedById, mappedDto.UserId);
-    }
-    
     [Fact]
-    public void ConvertCreateStudentRequestToStudent_ShouldMapCreatedByIdCorrectly()
+    public void ConvertCreateStudentRequestToStudent_ShouldMapCorrectly()
     {
         // Arrange
         var request = new CreateStudentRequest
@@ -89,8 +56,7 @@ public class StudentProfileTests
             LastName = "LastName",
             MiddleName = "MiddleName",
             Group = "Group",
-            Age = 20,
-            UserId = Guid.NewGuid()
+            Age = 20
         };
 
         // Act
@@ -104,11 +70,10 @@ public class StudentProfileTests
         Assert.Equal(request.MiddleName, mappedEntity.MiddleName);
         Assert.Equal(request.Group, mappedEntity.Group);
         Assert.Equal(request.Age, mappedEntity.Age);
-        Assert.Equal(request.UserId, mappedEntity.CreatedById);
     }
     
     [Fact]
-    public void ConvertUpdateStudentRequestToStudent_ShouldMapModifiedByIdCorrectly()
+    public void ConvertUpdateStudentRequestToStudent_ShouldMapCorrectly()
     {
         // Arrange
         var request = new UpdateStudentRequest
@@ -118,8 +83,7 @@ public class StudentProfileTests
             LastName = "LastName",
             MiddleName = "MiddleName",
             Group = "Group",
-            Age = 20,
-            UserId = Guid.NewGuid()
+            Age = 20
         };
 
         // Act
@@ -133,6 +97,5 @@ public class StudentProfileTests
         Assert.Equal(request.MiddleName, mappedEntity.MiddleName);
         Assert.Equal(request.Group, mappedEntity.Group);
         Assert.Equal(request.Age, mappedEntity.Age);
-        Assert.Equal(request.UserId, mappedEntity.ModifiedById);
     }
 }

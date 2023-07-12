@@ -2,7 +2,7 @@
 
 namespace Project.Domain.Entities;
 
-[Table("User")]
+[Table(nameof(User))]
 public class User : Entity
 {
     public string FirstName { get; set; } = null!;

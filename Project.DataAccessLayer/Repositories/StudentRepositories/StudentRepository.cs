@@ -24,7 +24,6 @@ internal class StudentRepository : IStudentRepository
 
     public async Task<Student> InsertAsync(Student entity)
     {
-        entity.CreatedAt = DateTime.Now;
         var createdStudentEntity = _context.Students.Add(entity).Entity;
         await _context.SaveChangesAsync();
 
@@ -36,13 +35,11 @@ internal class StudentRepository : IStudentRepository
         var existingEntity = await _context.Students
             .FirstOrDefaultAsync(_ => _.Id == entity.Id);
 
-        if (existingEntity is null || !entity.ModifiedById.HasValue)
+        if (existingEntity is null)
         {
             return false;
         }
 
-        entity.CreatedById = existingEntity.CreatedById;
-        entity.ModifiedAt = DateTime.Now;
         _context.Entry(existingEntity).CurrentValues.SetValues(entity);
 
         var affectedEntities = await _context.SaveChangesAsync();

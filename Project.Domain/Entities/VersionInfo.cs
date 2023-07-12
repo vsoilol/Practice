@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Project.Domain.Entities;
 
-[Table("VersionInfo")]
+[Table(nameof(VersionInfo))]
 public class VersionInfo
 {
     [Key]

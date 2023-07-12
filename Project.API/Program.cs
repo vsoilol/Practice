@@ -1,6 +1,8 @@
 using FluentMigrator.Runner;
+using Project.API.Services;
 using Project.BusinessLayer;
 using Project.DataAccessLayer;
+using Project.DataAccessLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.RegisterDataAccessLayer(connectionString);
 

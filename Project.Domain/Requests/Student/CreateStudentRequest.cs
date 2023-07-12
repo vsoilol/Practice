@@ -11,6 +11,4 @@ public class CreateStudentRequest
     public int Age { get; set; }
 
     public string Group { get; set; } = null!;
-
-    public Guid UserId { get; set; }
 }

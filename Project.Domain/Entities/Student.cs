@@ -2,8 +2,8 @@
 
 namespace Project.Domain.Entities;
 
-[Table("Student")]
-public class Student : AuditableEntity
+[Table(nameof(Student))]
+public class Student : Entity
 {
     public string FirstName { get; set; } = null!;
     
@@ -14,4 +14,6 @@ public class Student : AuditableEntity
     public int Age { get; set; }
 
     public string Group { get; set; } = null!;
+    
+    //public ICollection<ExamStudent> ExamStudents { get; set; } = null!;
 }
