@@ -29,7 +29,7 @@ public class StudentController : ControllerBase
     }
     
     [HttpPut]
-    public async Task<ActionResult> CreateUserAsync([FromBody] UpdateStudentRequest request)
+    public async Task<ActionResult> UpdateStudentAsync([FromBody] UpdateStudentRequest request)
     {
         var isUpdate = await _studentService.UpdateStudentAsync(request);
 
@@ -37,10 +37,16 @@ public class StudentController : ControllerBase
     }
     
     [HttpDelete("{id}")]
-    public async Task<ActionResult> CreateUserAsync([FromRoute] Guid id)
+    public async Task<ActionResult> DeleteStudentAsync([FromRoute] Guid id)
     {
         var isDelete = await _studentService.DeleteStudentAsync(id);
 
         return isDelete ? Ok() : BadRequest();
+    }
+    
+    [HttpGet("byExam/{examId}")]
+    public Task<IReadOnlyCollection<StudentDto>> GetAllStudentsByExamIdAsync([FromRoute] Guid examId)
+    {
+        return _studentService.GetAllStudentsByExamIdAsync(examId);
     }
 }

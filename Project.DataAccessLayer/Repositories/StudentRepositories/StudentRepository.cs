@@ -52,4 +52,15 @@ internal class StudentRepository : IStudentRepository
         var affectedEntities = await _context.SaveChangesAsync();
         return affectedEntities > 0;
     }
+
+    public Task<List<Student>> GetAllByExamIdAsync(Guid examId)
+    {
+        var taskStudentEntities = _context.Students
+            .AsNoTracking()
+            .Where(_ => _.ExamStudents
+                .Any(examStudent => examStudent.ExamId == examId))
+            .ToListAsync();
+
+        return taskStudentEntities;
+    }
 }

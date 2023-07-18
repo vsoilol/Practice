@@ -11,4 +11,6 @@ public interface IStudentRepository
     Task<bool> UpdateAsync(Student entity);
 
     Task<bool> DeleteAsync(Guid id);
+    
+    Task<List<Student>> GetAllByExamIdAsync(Guid examId);
 }
