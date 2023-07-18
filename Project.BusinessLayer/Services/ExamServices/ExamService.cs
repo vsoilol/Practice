@@ -38,11 +38,12 @@ public class ExamService : IExamService
     public async Task<ExamDto> CreateExamAsync(CreateExamRequest request)
     {
         await _validationService.ValidateAsync(request);
-        
-        var examEntity = _mapper.Map<Exam>(request);
-        examEntity.TeacherWorkingDayId =
-            await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);
 
+        var teacherWorkingDayId = await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);
+
+        var examEntity = _mapper.Map<Exam>(request);
+        examEntity.TeacherWorkingDayId = teacherWorkingDayId;
+        
         var createdExamEntity = await _examRepository.InsertAsync(examEntity);
 
         return _mapper.Map<ExamDto>(createdExamEntity);
@@ -52,9 +53,10 @@ public class ExamService : IExamService
     {
         await _validationService.ValidateAsync(request);
         
+        var teacherWorkingDayId = await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);
+
         var examEntity = _mapper.Map<Exam>(request);
-        examEntity.TeacherWorkingDayId =
-            await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);
+        examEntity.TeacherWorkingDayId = teacherWorkingDayId;
 
         return await _examRepository.UpdateWithStudentsAsync(examEntity);
     }
