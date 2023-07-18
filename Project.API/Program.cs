@@ -1,4 +1,5 @@
 using FluentMigrator.Runner;
+using Project.API.Middlewares;
 using Project.API.Services;
 using Project.BusinessLayer;
 using Project.DataAccessLayer;
@@ -22,6 +23,8 @@ builder.Services.RegisterDataAccessLayer(connectionString);
 builder.Services.RegisterBusinessLayer();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 var isDevelopment = app.Environment.IsDevelopment();
 var isProduction = app.Environment.IsProduction();
