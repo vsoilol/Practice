@@ -3,6 +3,7 @@ using Project.DataAccessLayer.Repositories.ExamRepositories;
 using Project.DataAccessLayer.Repositories.WorkingDayRepositories;
 using Project.Domain.DTOs;
 using Project.Domain.Entities;
+using Project.Domain.Exceptions;
 using Project.Domain.Requests.Exam;
 
 namespace Project.BusinessLayer.Services.ExamServices;
@@ -61,7 +62,7 @@ public class ExamService : IExamService
 
         if (workingDay is null)
         {
-            throw new Exception("Cannot find this working day");
+            throw new EntityNotFoundException(typeof(WorkingDay));
         }
 
         return workingDay.Id;

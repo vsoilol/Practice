@@ -1,5 +1,5 @@
 using FluentMigrator.Runner;
-using Project.API.Middlewares;
+using Project.API.Filters;
 using Project.API.Services;
 using Project.BusinessLayer;
 using Project.DataAccessLayer;
@@ -7,7 +7,10 @@ using Project.DataAccessLayer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ApiExceptionFilterAttribute>();
+});
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -23,8 +26,6 @@ builder.Services.RegisterDataAccessLayer(connectionString);
 builder.Services.RegisterBusinessLayer();
 
 var app = builder.Build();
-
-app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 var isDevelopment = app.Environment.IsDevelopment();
 var isProduction = app.Environment.IsProduction();
