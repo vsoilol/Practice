@@ -64,4 +64,11 @@ internal class ExamRepository : IExamRepository
         var affectedEntities = await _context.SaveChangesAsync();
         return affectedEntities > 0;
     }
+
+    public Task<Exam?> GetByTeacherIdAndDateAsync(Guid teacherId, DateTime date)
+    {
+        return _context.Exams.AsNoTracking()
+            .FirstOrDefaultAsync(_ => _.TeacherWorkingDay.TeacherId == teacherId
+                                      && _.TeacherWorkingDay.Date == date);
+    }
 }

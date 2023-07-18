@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Project.BusinessLayer.Validation.Services;
 using Project.DataAccessLayer.Repositories.ExamRepositories;
 using Project.DataAccessLayer.Repositories.WorkingDayRepositories;
 using Project.Domain.DTOs;
@@ -13,12 +14,15 @@ public class ExamService : IExamService
     private readonly IMapper _mapper;
     private readonly IExamRepository _examRepository;
     private readonly IWorkingDayRepository _workingDayRepository;
+    private readonly IValidationService _validationService;
 
-    public ExamService(IMapper mapper, IExamRepository examRepository, IWorkingDayRepository workingDayRepository)
+    public ExamService(IMapper mapper, IExamRepository examRepository, IWorkingDayRepository workingDayRepository,
+        IValidationService validationService)
     {
         _mapper = mapper;
         _examRepository = examRepository;
         _workingDayRepository = workingDayRepository;
+        _validationService = validationService;
     }
 
     public async Task<IReadOnlyCollection<ExamDto>> GetAllExamsAsync()
@@ -33,6 +37,8 @@ public class ExamService : IExamService
 
     public async Task<ExamDto> CreateExamAsync(CreateExamRequest request)
     {
+        await _validationService.ValidateAsync(request);
+        
         var examEntity = _mapper.Map<Exam>(request);
         examEntity.TeacherWorkingDayId =
             await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);
@@ -44,6 +50,8 @@ public class ExamService : IExamService
 
     public async Task<bool> UpdateExamAsync(UpdateExamRequest request)
     {
+        await _validationService.ValidateAsync(request);
+        
         var examEntity = _mapper.Map<Exam>(request);
         examEntity.TeacherWorkingDayId =
             await GetWorkingDayIdByTeacherIdAndDateAsync(request.TeacherId, request.Date);

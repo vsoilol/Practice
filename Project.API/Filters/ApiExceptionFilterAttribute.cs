@@ -14,6 +14,8 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
         {
             { typeof(EntityNotFoundException), HandleEntityNotFoundException },
+            { typeof(ValidationException), HandleValidationException },
+            { typeof(NotSuchValidatorException), HandleNotSuchValidatorException },
         };
     }
 
@@ -35,6 +37,46 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
         }
 
         HandleUnknownException(context);
+    }
+    
+    private void HandleNotSuchValidatorException(ExceptionContext context)
+    {
+        var exception = (NotSuchValidatorException)context.Exception;
+
+        var badRequest = new CustomBadRequestResult
+        {
+            Title = "Not implemented",
+            StatusCode = StatusCodes.Status501NotImplemented,
+            Errors = exception.Message,
+        };
+
+        context.Result = new ObjectResult(badRequest)
+        {
+            StatusCode = StatusCodes.Status501NotImplemented,
+        };
+
+        context.ExceptionHandled = true;
+    }
+
+    private void HandleValidationException(ExceptionContext context)
+    {
+        var exception = (ValidationException)context.Exception;
+
+        var errors = exception.Errors;
+
+        var badRequest = new CustomBadRequestResult
+        {
+            Title = "Validation error, please check the error list for more details",
+            StatusCode = StatusCodes.Status400BadRequest,
+            Errors = errors,
+        };
+
+        context.Result = new ObjectResult(badRequest)
+        {
+            StatusCode = StatusCodes.Status400BadRequest,
+        };
+
+        context.ExceptionHandled = true;
     }
 
     private void HandleEntityNotFoundException(ExceptionContext context)

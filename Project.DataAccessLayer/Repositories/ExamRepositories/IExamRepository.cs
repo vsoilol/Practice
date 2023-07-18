@@ -13,4 +13,6 @@ public interface IExamRepository
     Task<bool> UpdateWithStudentsAsync(Exam entity);
 
     Task<bool> DeleteAsync(Guid id);
+    
+    Task<Exam?> GetByTeacherIdAndDateAsync(Guid teacherId, DateTime date);
 }
