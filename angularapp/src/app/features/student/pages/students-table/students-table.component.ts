@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentsDataSourceService } from '../../services/students-data-source.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditStudentDialogComponent } from '../../dialogs/edit-student-dialog/edit-student-dialog.component';
-import { StudentService } from '../../services/student.service';
 import { Student } from 'src/app/core/models/responses/student';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import {
+  selectIsStudentLoading,
+  selectStudents,
+} from '../../store/selectors';
+import { getAllStudentsAction } from '../../store/actions/getAllStudents.action';
+import { deleteStudentAction } from '../../store/actions/deleteStudent.action';
 
 @Component({
   selector: 'app-students-table',
@@ -19,15 +25,22 @@ export class StudentsTableComponent implements OnInit {
     'group',
     'actions',
   ];
+  students$!: Observable<Student[]>;
+  isLoadingStudents$!: Observable<boolean>;
 
   constructor(
-    public studentService: StudentService,
     public dialog: MatDialog,
-    public dataSource: StudentsDataSourceService
+    private store: Store
   ) {}
 
   ngOnInit(): void {
-    this.studentService.loadStudents();
+    this.initializeValues();
+    this.store.dispatch(getAllStudentsAction());
+  }
+
+  initializeValues(): void {
+    this.students$ = this.store.select(selectStudents);
+    this.isLoadingStudents$ = this.store.select(selectIsStudentLoading);
   }
 
   addNew() {
@@ -45,6 +58,6 @@ export class StudentsTableComponent implements OnInit {
   }
 
   deleteItem(id: string) {
-    this.studentService.deleteStudent(id);
+    this.store.dispatch(deleteStudentAction({ id }));
   }
 }

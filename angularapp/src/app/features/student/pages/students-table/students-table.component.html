@@ -1,5 +1,7 @@
-<div class="student-table__container mat-elevation-z8">
-  <mat-table #table [dataSource]="dataSource" class="mat-cell">
+<div
+  class="student-table__container mat-elevation-z8"
+  *ngIf="students$ | async as students">
+  <mat-table #table [dataSource]="students" class="mat-cell">
     <ng-container matColumnDef="firstName">
       <mat-header-cell *matHeaderCellDef>Имя</mat-header-cell>
       <mat-cell *matCellDef="let row"> {{ row.firstName }}</mat-cell>

@@ -44,20 +44,6 @@
           </mat-form-field>
         </div>
 
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Пользователь</mat-label>
-            <mat-select formControlName="userId">
-              <mat-option
-                *ngFor="let user of studentService.users$ | async"
-                [value]="user.id">
-                {{ user.lastName }} {{ user.firstName }} {{ user.middleName }}
-              </mat-option>
-            </mat-select>
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
         <div class="dialog__buttons">
           <button
             mat-raised-button
