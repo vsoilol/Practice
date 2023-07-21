@@ -17,6 +17,7 @@ internal class SubjectRepository : ISubjectRepository
     {
         var taskSubjectEntities = _context.Subjects
             .AsNoTracking()
+            .OrderByDescending(_ => _.Id)
             .ToListAsync();
 
         return taskSubjectEntities;
