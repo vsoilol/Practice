@@ -1,54 +1,52 @@
-<div
-  class="student-table__container mat-elevation-z8"
-  *ngIf="students$ | async as students">
-  <mat-table #table [dataSource]="students" class="mat-cell">
-    <ng-container matColumnDef="firstName">
-      <mat-header-cell *matHeaderCellDef>Имя</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.firstName }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="lastName">
-      <mat-header-cell *matHeaderCellDef>Фамилия</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.lastName }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="middleName">
-      <mat-header-cell *matHeaderCellDef>Отчество</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.middleName }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="age">
-      <mat-header-cell *matHeaderCellDef>Возраст</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.age }}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="group">
-      <mat-header-cell *matHeaderCellDef>Группа</mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.group }}</mat-cell>
-    </ng-container>
-
-    <!-- actions -->
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>
-        <button mat-icon-button color="primary" (click)="addNew()">
-          <mat-icon aria-label="Example icon-button with a heart icon"
-            >add</mat-icon
-          >
-        </button>
-      </mat-header-cell>
-
-      <mat-cell *matCellDef="let row; let i = index">
-        <button mat-icon-button color="accent" (click)="startEdit(row)">
-          <mat-icon aria-label="Edit">edit</mat-icon>
-        </button>
-
-        <button mat-icon-button color="accent" (click)="deleteItem(row.id)">
-          <mat-icon aria-label="Delete">delete</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </mat-table>
+<div class="student-table__container" *ngIf="students$ | async as students">
+  <button
+    class="student-table__button"
+    (click)="showAddNewStudentModal()"
+    nz-button
+    nzType="primary">
+    Добавить
+  </button>
+  <nz-table
+    #basicTable
+    [nzData]="students"
+    [nzPageSize]="10"
+    [nzSize]="'small'"
+    [nzLoading]="(isLoadingStudents$ | async) === true">
+    <thead>
+      <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Отчество</th>
+        <th>Возраст</th>
+        <th>Группа</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.firstName }}</td>
+        <td>{{ data.lastName }}</td>
+        <td>{{ data.middleName }}</td>
+        <td>{{ data.age }}</td>
+        <td>{{ data.group }}</td>
+        <td>
+          <button
+            (click)="showEditStudentModal(data)"
+            nz-button
+            nzType="default"
+            nzShape="circle">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button
+            (click)="showConfirmDeleteStudentModal(data.id)"
+            nz-button
+            nzType="default"
+            nzShape="circle">
+            <span nz-icon nzType="delete" nzTheme="outline"></span>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
 </div>

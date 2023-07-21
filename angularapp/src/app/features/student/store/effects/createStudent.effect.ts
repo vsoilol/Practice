@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { createEffect, ofType, Actions } from '@ngrx/effects';
-import { switchMap, map, catchError, of, mergeMap } from 'rxjs';
+import { switchMap, map, catchError, of } from 'rxjs';
 import { StudentApiService } from 'src/app/core/api/student-api.service';
 import {
   createStudentAction,
@@ -18,7 +18,9 @@ export class CreateStudentEffect {
         return this.studentService.create(request).pipe(
           map(createStudentSuccessAction),
           catchError(() => {
-            return of(createStudentFailureAction());
+            return of(
+              createStudentFailureAction()
+            );
           })
         );
       })

@@ -6,24 +6,27 @@ import {
   getAllStudentsSuccessAction,
 } from './actions/getAllStudents.action';
 import {
-  createStudentAction,
-  createStudentFailureAction,
-  createStudentSuccessAction,
-} from './actions/createStudent.action';
+  deleteStudentAction,
+  deleteStudentFailureAction,
+  deleteStudentSuccessAction,
+} from './actions/deleteStudent.action';
 import {
   updateStudentAction,
   updateStudentFailureAction,
   updateStudentSuccessAction,
 } from './actions/updateStudent.action';
 import {
-  deleteStudentAction,
-  deleteStudentFailureAction,
-  deleteStudentSuccessAction,
-} from './actions/deleteStudent.action';
+  createStudentAction,
+  createStudentFailureAction,
+  createStudentSuccessAction,
+} from './actions/createStudent.action';
 
 const initialState: StudentStateInterface = {
   isLoading: false,
   students: [],
+  isDeleteLoading: false,
+  isEditLoading: false,
+  errors: null,
 };
 
 const studentReducer = createReducer(
@@ -33,7 +36,7 @@ const studentReducer = createReducer(
     (state): StudentStateInterface => ({
       ...state,
       isLoading: true,
-      students: [],
+      errors: null,
     })
   ),
   on(
@@ -53,66 +56,44 @@ const studentReducer = createReducer(
     })
   ),
   on(
-    createStudentAction,
+    deleteStudentSuccessAction,
+    deleteStudentFailureAction,
     (state): StudentStateInterface => ({
       ...state,
-      isLoading: true,
-    })
-  ),
-  on(
-    createStudentSuccessAction,
-    (state): StudentStateInterface => ({
-      ...state,
-      isLoading: false,
-    })
-  ),
-  on(
-    createStudentFailureAction,
-    (state): StudentStateInterface => ({
-      ...state,
-      isLoading: false,
-    })
-  ),
-  on(
-    updateStudentAction,
-    (state): StudentStateInterface => ({
-      ...state,
-      isLoading: true,
-    })
-  ),
-  on(
-    updateStudentSuccessAction,
-    (state): StudentStateInterface => ({
-      ...state,
-      isLoading: false,
-    })
-  ),
-  on(
-    updateStudentFailureAction,
-    (state): StudentStateInterface => ({
-      ...state,
-      isLoading: false,
+      isDeleteLoading: false,
     })
   ),
   on(
     deleteStudentAction,
     (state): StudentStateInterface => ({
       ...state,
-      isLoading: true,
+      isDeleteLoading: true,
+      errors: null,
     })
   ),
   on(
-    deleteStudentSuccessAction,
+    updateStudentAction,
+    createStudentAction,
     (state): StudentStateInterface => ({
       ...state,
-      isLoading: false,
+      isEditLoading: true,
+      errors: null,
     })
   ),
   on(
-    deleteStudentFailureAction,
+    createStudentSuccessAction,
+    updateStudentSuccessAction,
     (state): StudentStateInterface => ({
       ...state,
-      isLoading: false,
+      isEditLoading: false,
+    })
+  ),
+  on(
+    createStudentFailureAction,
+    updateStudentFailureAction,
+    (state): StudentStateInterface => ({
+      ...state,
+      isEditLoading: false,
     })
   )
 );
