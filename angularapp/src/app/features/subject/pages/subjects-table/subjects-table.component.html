@@ -1,0 +1,54 @@
+<div class="subject-table__container" *ngIf="subjects$ | async as subjects">
+  <button
+    class="subject-table__button"
+    (click)="showAddNewSubjectModal()"
+    nz-button
+    nzType="primary">
+    Добавить
+  </button>
+  <nz-table
+    nzTableLayout="fixed"
+    #basicTable
+    [nzData]="subjects"
+    [nzPageSize]="10"
+    [nzSize]="'small'"
+    [nzLoading]="(isLoadingSubjects$ | async) === true">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th>Наименование</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of basicTable.data">
+        <tr>
+          <td
+            [nzExpand]="expandSet.has(data.id)"
+            (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+          <td>{{ data.title }}</td>
+          <td>
+            <button
+              (click)="showEditSubjectModal(data)"
+              nz-button
+              nzType="default"
+              nzShape="circle">
+              <span nz-icon nzType="edit" nzTheme="outline"></span>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button
+              (click)="showConfirmDeleteSubjectModal(data.id)"
+              nz-button
+              nzType="default"
+              nzShape="circle">
+              <span nz-icon nzType="delete" nzTheme="outline"></span>
+            </button>
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(data.id)">
+          <span>{{ data.description }}</span>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

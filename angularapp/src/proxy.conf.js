@@ -6,6 +6,7 @@ const PROXY_CONFIG = [
       '/api/student',
       '/api/teacher',
       '/api/workingDay',
+      '/api/subject',
     ],
     target: 'https://localhost:7020',
     secure: false,

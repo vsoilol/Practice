@@ -1,0 +1,31 @@
+<form nz-form class="form" [formGroup]="form">
+  <ul *ngIf="errors$ | async as errors">
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="title"
+      >Наименование</nz-form-label
+    >
+    <nz-form-control [nzSm]="18" [nzXs]="24" [nzErrorTip]="titleErrorTpl">
+      <input nz-input formControlName="title" id="title" />
+      <ng-template #titleErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 30!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="description"
+      >Описание</nz-form-label
+    >
+    <nz-form-control [nzSm]="18" [nzXs]="24">
+      <nz-textarea-count [nzMaxCharacterCount]="100">
+        <textarea rows="6" formControlName="description" nz-input></textarea>
+      </nz-textarea-count>
+    </nz-form-control>
+  </nz-form-item>
+</form>

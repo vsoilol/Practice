@@ -17,6 +17,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'subject',
+    loadChildren: () =>
+      import('../app/features/subject/subject.module').then(
+        m => m.SubjectModule
+      ),
+  },
+  {
     path: '',
     redirectTo: 'student',
     pathMatch: 'full',

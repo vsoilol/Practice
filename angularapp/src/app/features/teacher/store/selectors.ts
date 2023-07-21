@@ -6,41 +6,41 @@ export const selectTeacherFeature =
 
 export const selectIsLoading = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.isLoading
+  (teacherState: TeacherStateInterface) => teacherState.isLoading
 );
 
 export const selectWorkingDays = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.workingDays
+  (teacherState: TeacherStateInterface) => teacherState.workingDays
 );
 
 export const selectWorkingDaysWithoutId = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) =>
-    tecaherState.workingDays.map(_ => _.date)
+  (teacherState: TeacherStateInterface) =>
+    teacherState.workingDays.map(_ => _.date)
 );
 
 export const selectIsDeleteTeacherLoading = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.isDeleteLoading
+  (teacherState: TeacherStateInterface) => teacherState.isDeleteLoading
 );
 
 export const selectIsEditTeacherLoading = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.isEditLoading
+  (teacherState: TeacherStateInterface) => teacherState.isEditLoading
 );
 
 export const selectErrors = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.errors
+  (teacherState: TeacherStateInterface) => teacherState.errors
 );
 
 export const selectTeachers = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.teachers
+  (teacherState: TeacherStateInterface) => teacherState.teachers
 );
 
 export const selectIsUpdateWorkingDaysLoading = createSelector(
   selectTeacherFeature,
-  (tecaherState: TeacherStateInterface) => tecaherState.isUpdateWorkingDaysLoading
+  (teacherState: TeacherStateInterface) => teacherState.isUpdateWorkingDaysLoading
 );
