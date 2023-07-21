@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  ViewContainerRef,
 } from '@angular/core';
 import { EditStudentDialogComponent } from '../../dialogs/edit-student-dialog/edit-student-dialog.component';
 import { Student } from 'src/app/core/models/responses/student';
@@ -40,8 +39,7 @@ export class StudentsTableComponent implements OnInit {
 
   constructor(
     private store: Store,
-    private modalService: NzModalService,
-    private viewContainerRef: ViewContainerRef
+    private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
@@ -67,7 +65,6 @@ export class StudentsTableComponent implements OnInit {
     this.modalService.create({
       nzTitle: 'Добавить студента',
       nzContent: EditStudentDialogComponent,
-      nzViewContainerRef: this.viewContainerRef,
       nzData: null,
       nzOkText: 'Сохранить',
       nzOnOk: _ => {

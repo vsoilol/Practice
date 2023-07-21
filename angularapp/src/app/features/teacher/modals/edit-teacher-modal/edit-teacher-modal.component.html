@@ -1,0 +1,55 @@
+<form nz-form class="form" [formGroup]="form">
+  <ul *ngIf="errors$ | async as errors">
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="firstName">Имя</nz-form-label>
+    <nz-form-control
+      [nzSm]="19"
+      [nzXs]="24"
+      nzErrorTip="Введено неверное имя!"
+      [nzErrorTip]="firstNameErrorTpl">
+      <input nz-input formControlName="firstName" id="firstName" />
+      <ng-template #firstNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="lastName"
+      >Фамилия</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="lastNameErrorTpl">
+      <input nz-input formControlName="lastName" id="lastName" />
+      <ng-template #lastNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="middleName"
+      >Отчество</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="middleNameErrorTpl">
+      <input nz-input formControlName="middleName" id="middleName" />
+      <ng-template #middleNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>

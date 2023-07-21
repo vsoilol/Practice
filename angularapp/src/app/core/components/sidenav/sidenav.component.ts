@@ -13,5 +13,9 @@ export class SidenavComponent {
       label: 'Студенты',
       routeLink: '/student',
     },
+    {
+      label: 'Преподаватели',
+      routeLink: '/teacher',
+    },
   ];
 }
