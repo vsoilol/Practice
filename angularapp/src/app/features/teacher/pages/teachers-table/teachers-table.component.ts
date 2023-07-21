@@ -18,7 +18,7 @@ import {
   selectIsEditTeacherLoading,
   selectErrors,
   selectIsDeleteTeacherLoading,
-  selectIsTeachersLoading,
+  selectIsLoading,
 } from '../../store/selectors';
 import { EditTeacherModalComponent } from '../../modals/edit-teacher-modal/edit-teacher-modal.component';
 
@@ -42,7 +42,7 @@ export class TeachersTableComponent implements OnInit {
 
   initializeValues(): void {
     this.teachers$ = this.store.select(selectTeachers);
-    this.isLoadingTeachers$ = this.store.select(selectIsTeachersLoading);
+    this.isLoadingTeachers$ = this.store.select(selectIsLoading);
 
     this.waitUntilEditLoading$ = this.store
       .select(selectIsEditTeacherLoading)

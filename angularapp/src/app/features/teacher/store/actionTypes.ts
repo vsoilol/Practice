@@ -14,4 +14,12 @@ export enum ActionTypes {
   DELETE_TEACHER = '[Teacher] Delete teacher',
   DELETE_TEACHER_SUCCESS = '[Teacher] Delete teacher success',
   DELETE_TEACHER_FAILURE = '[Teacher] Delete teacher failure',
+
+  GET_WORKING_DAYS_BY_TEACHER = '[Teacher] Get working days by teacher id',
+  GET_WORKING_DAYS_BY_TEACHER_SUCCESS = '[Teacher] Get working days by teacher id success',
+  GET_WORKING_DAYS_BY_TEACHER_FAILURE = '[Teacher] Get working days by teacher id failure',
+
+  UPDATE_TEACHER_WORKING_DAYS = '[Teacher] Update teacher working days',
+  UPDATE_TEACHER_WORKING_DAYS_SUCCESS = '[Teacher] Update teacher working days success',
+  UPDATE_TEACHER_WORKING_DAYS_FAILURE = '[Teacher] Update teacher working days failure',
 }

@@ -4,6 +4,7 @@ import { CreateTeacherRequest } from '../models/requests/teacher/createTeacherRe
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Teacher } from '../models/responses/teacher';
+import { UpdateTeacherWorkingDaysRequest } from '../models/requests/teacher/updateTeacherWorkingDaysRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -27,5 +28,9 @@ export class TeacherApiService {
 
   public delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  public updateTeacherWorkingDays(request: UpdateTeacherWorkingDaysRequest): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/workingDays`, request);
   }
 }

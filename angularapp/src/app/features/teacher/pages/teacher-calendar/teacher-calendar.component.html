@@ -1,0 +1,35 @@
+<div class="calendar-page">
+  <div class="calendar-page__container">
+    <div class="calendar-page__buttons">
+      <button
+        nz-button
+        nzType="primary"
+        [nzLoading]="isUpdateWorkingDaysLoading$ | async"
+        (click)="handleSaveClick()">
+        Сохранить
+      </button>
+      <button (click)="handleCancelClick()" nz-button nzType="default">
+        Отмена
+      </button>
+    </div>
+    <div *ngIf="isLoading$ | async" class="calendar-page__spinner">
+      <nz-spin nzSimple></nz-spin>
+    </div>
+    <ng-container *ngIf="(isLoading$ | async) === false">
+      <nz-calendar *ngIf="workingDays$ | async as workingDays" class="calendar">
+        <div *nzDateCell="let date">
+          <div (mousedown)="handleDateCellClick(date)" class="calendar__cell">
+            <div
+              class="cell__container"
+              *ngIf="workingDays | dateExistsInArray : date">
+              <nz-tag nzColor="success">
+                <span nz-icon nzType="clock-circle"></span>
+                <span>Рабочий день</span>
+              </nz-tag>
+            </div>
+          </div>
+        </div>
+      </nz-calendar>
+    </ng-container>
+  </div>
+</div>

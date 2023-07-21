@@ -20,6 +20,16 @@ import {
   updateTeacherSuccessAction,
   updateTeacherFailureAction,
 } from './actions/updateTeacher.action';
+import {
+  getWorkingDaysByTeacherIdAction,
+  getWorkingDaysByTeacherIdFailureAction,
+  getWorkingDaysByTeacherIdSuccessAction,
+} from './actions/getWorkingDaysByTeacherId.action';
+import {
+  updateTeacherWorkingDaysAction,
+  updateTeacherWorkingDaysFailureAction,
+  updateTeacherWorkingDaysSuccessAction,
+} from './actions/updateTeacherWorkingDays.action';
 
 const initialState: TeacherStateInterface = {
   isLoading: false,
@@ -27,6 +37,8 @@ const initialState: TeacherStateInterface = {
   isDeleteLoading: false,
   isEditLoading: false,
   errors: null,
+  workingDays: [],
+  isUpdateWorkingDaysLoading: false,
 };
 
 const teacherReducer = createReducer(
@@ -94,6 +106,49 @@ const teacherReducer = createReducer(
     (state): TeacherStateInterface => ({
       ...state,
       isEditLoading: false,
+    })
+  ),
+  on(
+    getWorkingDaysByTeacherIdAction,
+    (state): TeacherStateInterface => ({
+      ...state,
+      isLoading: true,
+      errors: null,
+    })
+  ),
+  on(
+    getWorkingDaysByTeacherIdSuccessAction,
+    (state, action): TeacherStateInterface => ({
+      ...state,
+      workingDays: action.workingDays,
+      isLoading: false,
+      errors: null,
+    })
+  ),
+  on(
+    getWorkingDaysByTeacherIdFailureAction,
+    (state): TeacherStateInterface => ({
+      ...state,
+      isLoading: false,
+      errors: null,
+    })
+  ),
+  on(
+    updateTeacherWorkingDaysAction,
+    (state): TeacherStateInterface => ({
+      ...state,
+      isUpdateWorkingDaysLoading: true,
+      errors: null,
+    })
+  ),
+  on(
+    updateTeacherWorkingDaysFailureAction,
+    updateTeacherWorkingDaysSuccessAction,
+    (state): TeacherStateInterface => ({
+      ...state,
+      isUpdateWorkingDaysLoading: false,
+      errors: null,
+      workingDays: [],
     })
   )
 );
