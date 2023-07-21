@@ -17,6 +17,7 @@ internal class TeacherRepository : ITeacherRepository
     {
         var taskTeacherEntities = _context.Teachers
             .AsNoTracking()
+            .OrderByDescending(_ => _.Id)
             .ToListAsync();
 
         return taskTeacherEntities;
