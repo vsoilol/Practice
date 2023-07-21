@@ -1,46 +1,46 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { TeacherStateInterface } from '../types/teacherState.interface';
 
-export const selectStudentFeature =
+export const selectTeacherFeature =
   createFeatureSelector<TeacherStateInterface>('teacher');
 
 export const selectIsLoading = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.isLoading
 );
 
 export const selectWorkingDays = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.workingDays
 );
 
 export const selectWorkingDaysWithoutId = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) =>
     tecaherState.workingDays.map(_ => _.date)
 );
 
 export const selectIsDeleteTeacherLoading = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.isDeleteLoading
 );
 
 export const selectIsEditTeacherLoading = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.isEditLoading
 );
 
 export const selectErrors = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.errors
 );
 
 export const selectTeachers = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.teachers
 );
 
 export const selectIsUpdateWorkingDaysLoading = createSelector(
-  selectStudentFeature,
+  selectTeacherFeature,
   (tecaherState: TeacherStateInterface) => tecaherState.isUpdateWorkingDaysLoading
 );
