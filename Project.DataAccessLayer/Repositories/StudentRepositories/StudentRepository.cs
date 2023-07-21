@@ -17,6 +17,7 @@ internal class StudentRepository : IStudentRepository
     {
         var taskStudentEntities = _context.Students
             .AsNoTracking()
+            .OrderByDescending(_ => _.Id)
             .ToListAsync();
 
         return taskStudentEntities;
