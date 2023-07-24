@@ -18,6 +18,10 @@ export class TeacherApiService {
     return this.http.get<Teacher[]>(this.baseUrl);
   }
 
+  public getAllByDate(date: string): Observable<Teacher[]> {
+    return this.http.get<Teacher[]>(`${this.baseUrl}/${date}`);
+  }
+
   public create(request: CreateTeacherRequest): Observable<Teacher> {
     return this.http.post<Teacher>(this.baseUrl, request);
   }

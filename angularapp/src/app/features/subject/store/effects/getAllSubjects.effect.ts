@@ -8,7 +8,7 @@ import {
   getAllSubjectsAction,
   getAllSubjectsFailureAction,
   getAllSubjectsSuccessAction,
-} from '../actions/getAlLSubjects.action';
+} from '../actions/getAllSubjects.action';
 
 @Injectable()
 export class GetAllSubjectsEffect {

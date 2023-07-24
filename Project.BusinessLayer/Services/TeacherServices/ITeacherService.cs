@@ -15,5 +15,5 @@ public interface ITeacherService
 
     Task<bool> UpdateTeacherWorkingDaysAsync(UpdateTeacherWorkingDaysRequest request);
     
-    Task<IReadOnlyCollection<TeacherDto>> GetAllTeachersByWorkingDayDateAsync(DateTime date);
+    Task<IReadOnlyCollection<TeacherDto>> GetAllByWorkingDayDateWithoutExamAsync(DateTime date);
 }

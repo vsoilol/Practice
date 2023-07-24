@@ -51,9 +51,9 @@ public class TeacherService : ITeacherService
         return _teacherRepository.UpdateTeacherWorkingDaysAsync(request.TeacherId, request.Dates);
     }
 
-    public async Task<IReadOnlyCollection<TeacherDto>> GetAllTeachersByWorkingDayDateAsync(DateTime date)
+    public async Task<IReadOnlyCollection<TeacherDto>> GetAllByWorkingDayDateWithoutExamAsync(DateTime date)
     {
-        var teacherEntities = await _teacherRepository.GetAllByWorkingDayDateAsync(date);
+        var teacherEntities = await _teacherRepository.GetAllByWorkingDayDateWithoutExamAsync(date);
 
         var mappedTeachers = _mapper.Map<IReadOnlyCollection<TeacherDto>>(teacherEntities);
 

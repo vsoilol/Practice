@@ -1,0 +1,101 @@
+<form nz-form class="form" [formGroup]="form">
+  <ul *ngIf="errors$ | async as errors">
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="subjectId"
+      >Дисциплина</nz-form-label
+    >
+    <nz-form-control
+      *ngIf="subjects$ | async as subjects"
+      [nzSm]="18"
+      [nzXs]="24">
+      <ng-container>
+        <nz-select
+          nzPlaceHolder="Выберите дисциплину"
+          nzShowSearch
+          formControlName="subjectId"
+          [nzLoading]="isSubjectsLoading$ | async"
+          [nzDisabled]="isSubjectsLoading$ | async">
+          <ng-container *ngIf="(isSubjectsLoading$ | async) === false">
+            <ng-container>
+              <nz-option
+                *ngFor="let subject of subjects"
+                [nzValue]="subject.id"
+                [nzLabel]="subject.title"></nz-option>
+            </ng-container>
+          </ng-container>
+        </nz-select>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="studentIds"
+      >Студенты</nz-form-label
+    >
+    <nz-form-control
+      *ngIf="students$ | async as students"
+      [nzSm]="18"
+      [nzXs]="24">
+      <ng-container>
+        <nz-select
+          nzPlaceHolder="Выберите студентов"
+          nzShowSearch
+          nzMode="multiple"
+          [nzMaxTagCount]="3"
+          formControlName="studentIds"
+          [nzLoading]="isStudentsLoading$ | async"
+          [nzDisabled]="isStudentsLoading$ | async">
+          <ng-container *ngIf="(isStudentsLoading$ | async) === false">
+            <ng-container>
+              <nz-option
+                *ngFor="let student of students"
+                [nzValue]="student.id"
+                [nzLabel]="student | studentFullName"></nz-option>
+            </ng-container>
+          </ng-container>
+        </nz-select>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="date">Дата</nz-form-label>
+    <nz-form-control [nzSm]="18" [nzXs]="24">
+      <nz-date-picker
+        formControlName="date"
+        [nzAllowClear]="false"
+        (ngModelChange)="onChangeDate($event)"></nz-date-picker>
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="teacherId"
+      >Преподаватель</nz-form-label
+    >
+    <nz-form-control
+      *ngIf="teachers$ | async as teachers"
+      [nzSm]="18"
+      [nzXs]="24">
+      <ng-container>
+        <nz-select
+          nzPlaceHolder="Выберите преподавателя"
+          nzShowSearch
+          formControlName="teacherId"
+          [nzLoading]="isTeachersLoading$ | async"
+          [nzDisabled]="isTeachersLoading$ | async">
+          <ng-container *ngIf="(isTeachersLoading$ | async) === false">
+            <ng-container>
+              <nz-option
+                *ngFor="let teacher of teachers"
+                [nzValue]="teacher.id"
+                [nzLabel]="teacher | teacherFullName"></nz-option>
+            </ng-container>
+          </ng-container>
+        </nz-select>
+      </ng-container>
+    </nz-form-control>
+  </nz-form-item>
+</form>

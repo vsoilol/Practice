@@ -14,7 +14,7 @@ import {
   getAllSubjectsAction,
   getAllSubjectsSuccessAction,
   getAllSubjectsFailureAction,
-} from './actions/getAlLSubjects.action';
+} from './actions/getAllSubjects.action';
 import {
   updateSubjectAction,
   updateSubjectSuccessAction,

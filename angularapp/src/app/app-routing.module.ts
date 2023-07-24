@@ -24,6 +24,13 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'exam',
+    loadChildren: () =>
+      import('../app/features/exam/exam.module').then(
+        m => m.ExamModule
+      ),
+  },
+  {
     path: '',
     redirectTo: 'student',
     pathMatch: 'full',

@@ -21,5 +21,9 @@ export class SidenavComponent {
       label: 'Дисциплины',
       routeLink: '/subject',
     },
+    {
+      label: 'Экзамены',
+      routeLink: '/exam',
+    },
   ];
 }

@@ -11,7 +11,7 @@ import {
   takeWhile,
 } from 'rxjs';
 import { deleteSubjectAction } from '../../store/actions/deleteSubject.action';
-import { getAllSubjectsAction } from '../../store/actions/getAlLSubjects.action';
+import { getAllSubjectsAction } from '../../store/actions/getAllSubjects.action';
 import {
   selectSubjects,
   selectIsEditSubjectLoading,

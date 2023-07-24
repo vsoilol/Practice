@@ -1,0 +1,67 @@
+<div class="exam-table__container" *ngIf="exams$ | async as exams">
+  <button
+    class="exam-table__button"
+    (click)="showAddNewExamModal()"
+    nz-button
+    nzType="primary">
+    Добавить
+  </button>
+  <nz-table
+    nzTableLayout="fixed"
+    #basicTable
+    [nzData]="exams"
+    [nzPageSize]="10"
+    [nzSize]="'small'"
+    [nzLoading]="(isLoadingExams$ | async) === true">
+    <thead>
+      <tr>
+        <th nzWidth="60px"></th>
+        <th>Наименование дисциплины</th>
+        <th>Дата проведения</th>
+        <th>Преподаватель</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let data of basicTable.data">
+        <tr>
+          <td
+            [nzExpand]="expandSet.has(data.id)"
+            (nzExpandChange)="onExpandChange(data.id, $event)"></td>
+          <td>{{ data.subject.title }}</td>
+          <td>{{ data.date | date : 'shortDate' }}</td>
+          <td>{{ data.teacher | teacherFullName }}</td>
+          <td>
+            <button
+              (click)="showEditExamModal(data)"
+              nz-button
+              nzType="default"
+              nzShape="circle">
+              <span nz-icon nzType="edit" nzTheme="outline"></span>
+            </button>
+            <nz-divider nzType="vertical"></nz-divider>
+            <button
+              (click)="showConfirmDeleteExamModal(data.id)"
+              nz-button
+              nzType="default"
+              nzShape="circle">
+              <span nz-icon nzType="delete" nzTheme="outline"></span>
+            </button>
+          </td>
+        </tr>
+        <tr [nzExpand]="expandSet.has(data.id)">
+          <ng-container *ngIf="(loadingStudents$ | async)![data.id] === false">
+            <nz-list nzSize="small">
+              <nz-list-header>Студенты</nz-list-header>
+              <nz-list-item
+                *ngFor="let student of (studentsByExam$ | async)![data.id]"
+                >{{ student | studentFullName }}</nz-list-item
+              >
+            </nz-list>
+          </ng-container>
+          <div *ngIf="(loadingStudents$ | async)![data.id]">Loading...</div>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+</div>

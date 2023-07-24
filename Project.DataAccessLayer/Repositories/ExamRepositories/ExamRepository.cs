@@ -19,6 +19,7 @@ internal class ExamRepository : IExamRepository
             .AsNoTracking()
             .Include(_ => _.TeacherWorkingDay.Teacher)
             .Include(_ => _.Subject)
+            .OrderByDescending(_ => _.Id)
             .ToListAsync();
 
         return taskExamEntities;

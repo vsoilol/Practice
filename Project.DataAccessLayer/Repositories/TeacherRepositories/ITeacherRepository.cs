@@ -14,5 +14,5 @@ public interface ITeacherRepository
 
     Task<bool> UpdateTeacherWorkingDaysAsync(Guid teacherId, IEnumerable<DateTime> dates);
     
-    Task<List<Teacher>> GetAllByWorkingDayDateAsync(DateTime date);
+    Task<List<Teacher>> GetAllByWorkingDayDateWithoutExamAsync(DateTime date);
 }

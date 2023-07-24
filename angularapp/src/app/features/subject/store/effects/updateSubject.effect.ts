@@ -7,7 +7,7 @@ import {
   updateSubjectFailureAction,
   updateSubjectSuccessAction,
 } from '../actions/updateSubject.action';
-import { getAllSubjectsAction } from '../actions/getAlLSubjects.action';
+import { getAllSubjectsAction } from '../actions/getAllSubjects.action';
 
 @Injectable()
 export class UpdateSubjectEffect {

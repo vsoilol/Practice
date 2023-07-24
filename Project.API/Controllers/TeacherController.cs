@@ -23,9 +23,9 @@ public class TeacherController : ControllerBase
     }
 
     [HttpGet("{date}")]
-    public Task<IReadOnlyCollection<TeacherDto>> GetAllTeachersByWorkingDayDateAsync([FromRoute] DateTime date)
+    public Task<IReadOnlyCollection<TeacherDto>> GetAllByWorkingDayDateWithoutExamAsync([FromRoute] DateTime date)
     {
-        return _teacherService.GetAllTeachersByWorkingDayDateAsync(date);
+        return _teacherService.GetAllByWorkingDayDateWithoutExamAsync(date);
     }
 
     [HttpPost]

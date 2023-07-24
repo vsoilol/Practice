@@ -73,12 +73,12 @@ internal class TeacherRepository : ITeacherRepository
         return affectedRows > 0;
     }
 
-    public Task<List<Teacher>> GetAllByWorkingDayDateAsync(DateTime date)
+    public Task<List<Teacher>> GetAllByWorkingDayDateWithoutExamAsync(DateTime date)
     {
         var taskTeacherEntities = _context.Teachers
             .AsNoTracking()
             .Where(_ => _.WorkingDays
-                .Any(day => day.Date == date))
+                .Any(day => day.Date == date && day.Exam == null))
             .ToListAsync();
 
         return taskTeacherEntities;

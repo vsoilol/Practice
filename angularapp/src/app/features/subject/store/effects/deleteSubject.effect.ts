@@ -7,7 +7,7 @@ import {
   deleteSubjectFailureAction,
   deleteSubjectSuccessAction,
 } from '../actions/deleteSubject.action';
-import { getAllSubjectsAction } from '../actions/getAlLSubjects.action';
+import { getAllSubjectsAction } from '../actions/getAllSubjects.action';
 
 @Injectable()
 export class DeleteSubjectEffect {
