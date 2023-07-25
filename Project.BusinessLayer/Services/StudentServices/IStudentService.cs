@@ -12,4 +12,6 @@ public interface IStudentService
     Task<bool> UpdateStudentAsync(UpdateStudentRequest request);
 
     Task<bool> DeleteStudentAsync(Guid id);
+
+    Task<IReadOnlyCollection<StudentDto>> GetAllStudentsByExamIdAsync(Guid examId);
 }

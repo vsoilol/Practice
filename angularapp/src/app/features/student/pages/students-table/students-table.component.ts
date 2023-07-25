@@ -1,50 +1,102 @@
-import { Component, OnInit } from '@angular/core';
-import { StudentsDataSourceService } from '../../services/students-data-source.service';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { EditStudentDialogComponent } from '../../dialogs/edit-student-dialog/edit-student-dialog.component';
-import { StudentService } from '../../services/student.service';
 import { Student } from 'src/app/core/models/responses/student';
+import {
+  Observable,
+  filter,
+  lastValueFrom,
+  map,
+  take,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs';
+import { Store } from '@ngrx/store';
+import {
+  selectErrors,
+  selectIsDeleteStudentLoading,
+  selectIsEditStudentLoading,
+  selectIsStudentLoading,
+  selectStudents,
+} from '../../store/selectors';
+import { getAllStudentsAction } from '../../store/actions/getAllStudents.action';
+import { deleteStudentAction } from '../../store/actions/deleteStudent.action';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Component({
   selector: 'app-students-table',
   templateUrl: './students-table.component.html',
   styleUrls: ['./students-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StudentsTableComponent implements OnInit {
-  public displayedColumns = [
-    'firstName',
-    'lastName',
-    'middleName',
-    'age',
-    'group',
-    'actions',
-  ];
+  students$!: Observable<Student[]>;
+  isLoadingStudents$!: Observable<boolean>;
+  waitUntilEditLoading$!: Observable<boolean>;
 
   constructor(
-    public studentService: StudentService,
-    public dialog: MatDialog,
-    public dataSource: StudentsDataSourceService
+    private store: Store,
+    private modalService: NzModalService
   ) {}
 
   ngOnInit(): void {
-    this.studentService.loadStudents();
+    this.initializeValues();
+    this.store.dispatch(getAllStudentsAction());
   }
 
-  addNew() {
-    const dialogRef = this.dialog.open(EditStudentDialogComponent, {
-      disableClose: true,
-      data: null,
+  initializeValues(): void {
+    this.students$ = this.store.select(selectStudents);
+    this.isLoadingStudents$ = this.store.select(selectIsStudentLoading);
+
+    this.waitUntilEditLoading$ = this.store
+      .select(selectIsEditStudentLoading)
+      .pipe(
+        withLatestFrom(this.store.select(selectErrors)),
+        filter(value => !value[0]),
+        map(value => value[1] === null),
+        take(1)
+      );
+  }
+
+  showAddNewStudentModal() {
+    this.modalService.create({
+      nzTitle: 'Добавить студента',
+      nzContent: EditStudentDialogComponent,
+      nzData: null,
+      nzOkText: 'Сохранить',
+      nzOnOk: _ => {
+        return _.onSubmit(this.waitUntilEditLoading$);
+      },
     });
   }
 
-  startEdit(student: Student) {
-    const dialogRef = this.dialog.open(EditStudentDialogComponent, {
-      disableClose: true,
-      data: student,
+  showEditStudentModal(student: Student) {
+    this.modalService.create({
+      nzTitle: 'Редактировать студента',
+      nzContent: EditStudentDialogComponent,
+      nzData: student,
+      nzOkText: 'Сохранить',
+      nzOnOk: _ => {
+        return _.onSubmit(this.waitUntilEditLoading$);
+      },
     });
   }
 
-  deleteItem(id: string) {
-    this.studentService.deleteStudent(id);
+  showConfirmDeleteStudentModal(id: string) {
+    this.modalService.confirm({
+      nzTitle: 'Вы уверены что хотите удалить студента?',
+      nzOnOk: () => {
+        this.store.dispatch(deleteStudentAction({ id }));
+
+        return lastValueFrom(
+          this.store
+            .select(selectIsDeleteStudentLoading)
+            .pipe(takeWhile(value => value))
+        );
+      },
+    });
   }
 }

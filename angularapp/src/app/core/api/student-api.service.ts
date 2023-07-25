@@ -17,6 +17,10 @@ export class StudentApiService {
     return this.http.get<Student[]>(this.baseUrl);
   }
 
+  public getAllByExamId(examId: string): Observable<Student[]> {
+    return this.http.get<Student[]>(`${this.baseUrl}/byExam/${examId}`);
+  }
+
   public create(student: CreateStudentRequest): Observable<Student> {
     return this.http.post<Student>(this.baseUrl, student);
   }

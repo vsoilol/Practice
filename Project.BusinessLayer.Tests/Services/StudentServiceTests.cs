@@ -155,6 +155,28 @@ public class StudentServiceTests
         result.Should().BeTrue();
         _studentRepositoryMock.Verify(repo => repo.DeleteAsync(studentId), Times.Once);
     }
+    
+    [Fact]
+    public async Task GetAllStudentsByExamIdAsync_ShouldReturnAllStudents()
+    {
+        // Arrange
+        var examId = Guid.NewGuid();
+        var expectedStudentEntities = GenerateTestStudentEntities();
+        var expectedStudentDtos = ConvertStudentEntitiesToDtos(expectedStudentEntities);
+        
+        _studentRepositoryMock.Setup(repo => repo.GetAllByExamIdAsync(examId))
+            .ReturnsAsync(expectedStudentEntities);
+        _mapperMock.Setup(m => m.Map<IReadOnlyCollection<StudentDto>>(expectedStudentEntities))
+            .Returns(expectedStudentDtos);
+
+        // Act
+        var result = await _studentService.GetAllStudentsByExamIdAsync(examId);
+
+        // Assert
+        result.Should().Equal(expectedStudentDtos);
+        _mapperMock.Verify(m => m.Map<IReadOnlyCollection<StudentDto>>(expectedStudentEntities), Times.Once);
+        _studentRepositoryMock.Verify(repo => repo.GetAllByExamIdAsync(examId), Times.Once);
+    }
 
     private List<Student> GenerateTestStudentEntities()
     {

@@ -46,4 +46,14 @@ public class StudentService : IStudentService
     {
         return _studentRepository.DeleteAsync(id);
     }
+
+    public async Task<IReadOnlyCollection<StudentDto>> GetAllStudentsByExamIdAsync(Guid examId)
+    {
+        var studentEntities = await _studentRepository.GetAllByExamIdAsync(examId);
+
+        var mappedStudents = _mapper
+            .Map<IReadOnlyCollection<StudentDto>>(studentEntities);
+
+        return mappedStudents;
+    }
 }

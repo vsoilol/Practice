@@ -17,6 +17,7 @@ internal class StudentRepository : IStudentRepository
     {
         var taskStudentEntities = _context.Students
             .AsNoTracking()
+            .OrderByDescending(_ => _.Id)
             .ToListAsync();
 
         return taskStudentEntities;
@@ -51,5 +52,16 @@ internal class StudentRepository : IStudentRepository
         _context.Students.Remove(new Student { Id = id });
         var affectedEntities = await _context.SaveChangesAsync();
         return affectedEntities > 0;
+    }
+
+    public Task<List<Student>> GetAllByExamIdAsync(Guid examId)
+    {
+        var taskStudentEntities = _context.Students
+            .AsNoTracking()
+            .Where(_ => _.ExamStudents
+                .Any(examStudent => examStudent.ExamId == examId))
+            .ToListAsync();
+
+        return taskStudentEntities;
     }
 }

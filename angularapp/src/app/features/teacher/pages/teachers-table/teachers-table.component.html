@@ -1,0 +1,57 @@
+<div class="teacher-table__container" *ngIf="teachers$ | async as teachers">
+  <button
+    class="teacher-table__button"
+    (click)="showAddNewTeacherModal()"
+    nz-button
+    nzType="primary">
+    Добавить
+  </button>
+  <nz-table
+    nzTableLayout="fixed"
+    #basicTable
+    [nzData]="teachers"
+    [nzPageSize]="10"
+    [nzSize]="'small'"
+    [nzLoading]="(isLoadingTeachers$ | async) === true">
+    <thead>
+      <tr>
+        <th>Имя</th>
+        <th>Фамилия</th>
+        <th>Отчество</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of basicTable.data">
+        <td>{{ data.firstName }}</td>
+        <td>{{ data.lastName }}</td>
+        <td>{{ data.middleName }}</td>
+        <td>
+          <button
+            (click)="showEditTeacherModal(data)"
+            nz-button
+            nzType="default"
+            nzShape="circle">
+            <span nz-icon nzType="edit" nzTheme="outline"></span>
+          </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <button
+            (click)="showConfirmDeleteTeacherModal(data.id)"
+            nz-button
+            nzType="default"
+            nzShape="circle">
+            <span nz-icon nzType="delete" nzTheme="outline"></span>
+          </button>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a
+            [routerLink]="['calendar', data.id]"
+            nz-button
+            nzType="default"
+            nzShape="circle">
+            <span nz-icon nzType="calendar" nzTheme="outline"></span>
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>

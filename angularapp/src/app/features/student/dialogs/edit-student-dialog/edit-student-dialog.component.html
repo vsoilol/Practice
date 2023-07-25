@@ -1,80 +1,92 @@
-<div class="dialog">
-  <div class="dialog__container">
-    <h3 mat-dialog-title>{{ title }}</h3>
-
-    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form__container">
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Имя</mat-label>
-            <input matInput formControlName="firstName" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Фамилия</mat-label>
-            <input matInput formControlName="lastName" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Отчество</mat-label>
-            <input matInput formControlName="middleName" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Возраст</mat-label>
-            <input matInput [type]="'number'" formControlName="age" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Группа</mat-label>
-            <input matInput formControlName="group" />
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="input__container">
-          <mat-form-field appearance="outline">
-            <mat-label>Пользователь</mat-label>
-            <mat-select formControlName="userId">
-              <mat-option
-                *ngFor="let user of studentService.users$ | async"
-                [value]="user.id">
-                {{ user.lastName }} {{ user.firstName }} {{ user.middleName }}
-              </mat-option>
-            </mat-select>
-            <!-- <mat-error *ngIf="email.invalid">{{ getErrorMessage() }}</mat-error> -->
-          </mat-form-field>
-        </div>
-
-        <div class="dialog__buttons">
-          <button
-            mat-raised-button
-            color="primary"
-            [type]="'submit'"
-            [disabled]="!form.valid">
-            Сохранить
-          </button>
-          <button
-            mat-raised-button
-            color="warn"
-            (click)="onNoClick()"
-            tabindex="-1">
-            Выйти
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+<form nz-form class="form" [formGroup]="form">
+  <ul *ngIf="errors$ | async as errors">
+    <li *ngFor="let error of errors">{{ error }}</li>
+  </ul>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="firstName"
+      >Имя</nz-form-label
+    >
+    <nz-form-control
+      [nzSm]="19"
+      [nzXs]="24"
+      nzErrorTip="Введено неверное имя!"
+      [nzErrorTip]="firstNameErrorTpl">
+      <input nz-input formControlName="firstName" id="firstName" />
+      <ng-template #firstNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="lastName"
+      >Фамилия</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="lastNameErrorTpl">
+      <input nz-input formControlName="lastName" id="lastName" />
+      <ng-template #lastNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="middleName"
+      >Отчество</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="middleNameErrorTpl">
+      <input nz-input formControlName="middleName" id="middleName" />
+      <ng-template #middleNameErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 50!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="age"
+      >Возраст</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="ageErrorTpl">
+      <input nz-input [type]="'number'" formControlName="age" id="age" />
+      <ng-template #ageErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('min')"
+          >Возраст не может быть меньше 10!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('max')"
+          >Возраст не может быть больше 90!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzFor="group"
+      >Группа</nz-form-label
+    >
+    <nz-form-control [nzSm]="19" [nzXs]="24" [nzErrorTip]="groupErrorTpl">
+      <input nz-input formControlName="group" id="group" />
+      <ng-template #groupErrorTpl let-control>
+        <ng-container *ngIf="control.hasError('required')"
+          >Поле не может быть пустым!</ng-container
+        >
+        <ng-container *ngIf="control.hasError('maxlength')"
+          >Максимальное количество символов 10!</ng-container
+        >
+      </ng-template>
+    </nz-form-control>
+  </nz-form-item>
+</form>

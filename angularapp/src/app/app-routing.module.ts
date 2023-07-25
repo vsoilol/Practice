@@ -3,22 +3,31 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'user',
-    loadChildren: () =>
-      import('../app/features/user/user.module').then(m => m.UserModule),
-  },
-  {
-    path: 'weatherforecast',
-    loadChildren: () =>
-      import('../app/features/weather-forecast/weather-forecast.module').then(
-        m => m.WeatherForecastModule
-      ),
-  },
-  {
     path: 'student',
     loadChildren: () =>
       import('../app/features/student/student.module').then(
         m => m.StudentModule
+      ),
+  },
+  {
+    path: 'teacher',
+    loadChildren: () =>
+      import('../app/features/teacher/teacher.module').then(
+        m => m.TeacherModule
+      ),
+  },
+  {
+    path: 'subject',
+    loadChildren: () =>
+      import('../app/features/subject/subject.module').then(
+        m => m.SubjectModule
+      ),
+  },
+  {
+    path: 'exam',
+    loadChildren: () =>
+      import('../app/features/exam/exam.module').then(
+        m => m.ExamModule
       ),
   },
   {
